@@ -1,0 +1,30 @@
+# action.yml
+name: 'Pull request bot checker for educational process'
+description: 'Check view of pr, such as: name of pr, commits, structure, files and so on'
+inputs:
+  number-of-pr:  
+    description: 'Number of pull request'
+    required: true
+    default: '1'
+  github-token:  
+    description: 'Github token'
+    required: true
+    default: "${{ github.token }}"
+  repository-name:
+    description: 'Full name of repo. Format.: <owner>/<name of repo>'
+    required: true
+    default: ${{ github.event.repository.full_name }}
+  author:
+    description: 'login of sender'
+    required: true
+    default: ${{ github.event.sender.login }}
+
+branding:
+  icon: 'book'  
+  color: 'gray-dark'
+
+runs:
+  using: 'composite'
+  steps:
+    - run:  docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config mirrin/pr-automation:latest python3.8 check_pull_request.py ${{ inputs.github-token }} ${{ inputs.number-of-pr }} ${{ inputs.repository-name }} ${{ inputs.author }}
+      shell: bash
