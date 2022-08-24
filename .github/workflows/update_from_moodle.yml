@@ -1,7 +1,7 @@
 name: update grades from moodle
 on:
   schedule:
-    - cron: "40 23 * * 2"  # For groups 2383
+    - cron: "49 23 * * 2"  # For groups 2383
 
 
 jobs:
