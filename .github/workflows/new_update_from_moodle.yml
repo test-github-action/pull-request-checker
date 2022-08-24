@@ -1,7 +1,8 @@
 name: 'name me'
 on:
   schedule:
-    - cron: '42 * * * *'  # For groups 2383
+    - cron: '43 * * * *'  # For groups 2383
+    - cron: '44 * * * *'
 
 jobs:
   run:
