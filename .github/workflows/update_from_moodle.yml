@@ -10,4 +10,4 @@ jobs:
     steps:
     - id: update-grades
       name: Update grades
-      run: docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config mirrin/pr1-automation python3.8 update_pull_requests_from_moodle.py /config
+      run: docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config mirrin/pr-automation python3.8 update_pull_requests_from_moodle.py /config
