@@ -1,0 +1,13 @@
+name: update grades from moodle
+on:
+  schedule:
+    - 40 23 * * 2  # For groups 2383
+
+
+jobs:
+  run:
+    runs-on: self-hosted
+    steps:
+    - id: update-grades
+      name Update grades
+      run: docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config <docker_image> python3.8 update_pull_requests_from_moodle.py /config
