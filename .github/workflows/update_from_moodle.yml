@@ -1,8 +1,7 @@
-name: update grades from moodle
+name: 'update grades from moodle'
 on:
   schedule:
-    - cron: '27 * * * *'  # For groups 2383
-
+    - cron: '38 * * * *'  # For groups 2383
 
 jobs:
   run:
