@@ -26,8 +26,8 @@ branding:
 runs:
   using: 'composite'
   steps:
-    - run:
-      | REPO_NAME=${{ inputs.repository-name }}
-      | REPO_NAME=${REPO_NAME##*/}
-      | docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${REPO_NAME}:/repository mirrin/pr-automation:latest python3.8 check_pull_request.py ${{ inputs.github-token }} ${{ inputs.number-of-pr }} ${{ inputs.repository-name }} ${{ inputs.author }}
+    - run: |
+        REPO_NAME=${{ inputs.repository-name }}
+        REPO_NAME=${REPO_NAME##*/}
+        docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${REPO_NAME}:/repository mirrin/pr-automation:latest python3.8 check_pull_request.py ${{ inputs.github-token }} ${{ inputs.number-of-pr }} ${{ inputs.repository-name }} ${{ inputs.author }}
       shell: bash
