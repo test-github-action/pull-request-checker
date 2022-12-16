@@ -25,9 +25,11 @@ runs:
     - uses: actions/checkout@v2
 
     - name: Pull docker image
+      shell: bash
       run: docker pull artanias/codeplag-ubuntu20.04:0.2.8
      
     - name: Clone all branches
+      shell: bash
       run: |
         git clone "https://github.com/${{ inputs.repository-name }}"
         cd check_plag
@@ -36,6 +38,7 @@ runs:
         done
    
     - name: Merge all branches
+      shell: bash
       run: |
         cd check_plag
         git config --global user.email "robot@example.com"
@@ -43,6 +46,7 @@ runs:
         git merge $(git branch | tr -s '\r\n*' ' ' | sed -r 's/main//' | sed -r 's/master//') -m "Merge all branches."
 
     - name: Run plagiarism searching
+      shell: bash
       run: |
         cd check_plag
         docker run --rm --volume $(pwd):/usr/src/works:ro --volume $(pwd)/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "codeplag settings modify --reports /usr/src/reports && codeplag check --extension py --directories /usr/src/works/"
