@@ -31,6 +31,7 @@ runs:
         REPO_NAME=${{ inputs.repository-name }}
         REPO_NAME=${REPO_NAME##*/}
         echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
+        echo "pwd=${pwd}" >> $GITHUB_OUTPUT
 
     - name: Pull docker image
       shell: bash
@@ -51,6 +52,6 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: reports
-        path: ${pwd}/${{ steps.repo_name.outputs.repo_name }}/reports/
+        path: ${{ steps.repo_name.outputs.pwd }}/${{ steps.repo_name.outputs.repo_name }}/reports/
         retention-days: 1
         if-no-files-found: error
