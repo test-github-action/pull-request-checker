@@ -47,7 +47,7 @@ runs:
       shell: bash
       run: |
         cp -r ${{ steps.repo_name.outputs.repo_name }} /repository_files/${{ steps.repo_name.outputs.repo_name }}
-        docker run --rm --volume /repository_files/${{ steps.repo_name.outputs.repo_name }}:/usr/src/works:ro --volume /repository_files/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "mkdir -p /usr/src/reports && ls -R /usr/src && codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
+        docker run --rm --volume ${VOLUME_NAME}/${{ steps.repo_name.outputs.repo_name }}:/usr/src/works:ro --volume ${VOLUME_NAME}/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "mkdir -p /usr/src/reports && ls -R /usr/src && codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
         ls -R /repository_files
    
     - name: Save reports
