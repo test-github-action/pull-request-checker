@@ -32,7 +32,7 @@ runs:
       shell: bash
       run: |
         git clone "https://github.com/${{ inputs.repository-name }}"
-        cd ${{ inputs.repository-name }}
+        cd ${${{ inputs.repository-name }}##*/}
         for branch in $(git branch --all | grep '^\s*remotes' | egrep --invert-match '(:?HEAD|main|master)$'); do
             git branch --track "${branch##*/}" "$branch"
         done
@@ -40,7 +40,7 @@ runs:
     - name: Merge all branches
       shell: bash
       run: |
-        cd ${{ inputs.repository-name }}
+        cd ${${{ inputs.repository-name }}##*/}
         git config --global user.email "robot@example.com"
         git config --global user.name "robot"
         git merge $(git branch | tr -s '\r\n*' ' ' | sed -r 's/main//' | sed -r 's/master//') -m "Merge all branches."
@@ -48,7 +48,7 @@ runs:
     - name: Run plagiarism searching
       shell: bash
       run: |
-        cd ${{ inputs.repository-name }}
+        cd ${${{ inputs.repository-name }}##*/}
         docker run --rm --volume $(pwd):/usr/src/works:ro --volume $(pwd)/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "codeplag settings modify --reports /usr/src/reports && codeplag check --extension py --directories /usr/src/works/"
    
     - name: Save reports
