@@ -16,7 +16,7 @@ branding:
   color: 'gray-dark'
 
 defaults:
-  run:
+  runs:
     shell: bash
 
 runs:
