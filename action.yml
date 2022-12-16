@@ -40,18 +40,6 @@ runs:
       shell: bash
       run: |
         git clone "https://github.com/${{ inputs.repository-name }}"
-        cd ${{ steps.repo_name.outputs.repo_name }}
-        for branch in $(git branch --all | grep '^\s*remotes' | egrep --invert-match '(:?HEAD|main|master)$'); do
-            git branch --track "${branch##*/}" "$branch"
-        done
-   
-    - name: Merge all branches
-      shell: bash
-      run: |
-        cd ${{ steps.repo_name.outputs.repo_name }}
-        git config --global user.email "robot@example.com"
-        git config --global user.name "robot"
-        git merge $(git branch | tr -s '\r\n*' ' ' | sed -r 's/main//' | sed -r 's/master//') -m "Merge all branches."
 
     - name: Run plagiarism searching
       shell: bash
