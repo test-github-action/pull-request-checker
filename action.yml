@@ -32,6 +32,7 @@ runs:
         REPO_NAME=${REPO_NAME##*/}
         echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
         echo "pwd=${pwd}" >> $GITHUB_OUTPUT
+        echo "full=${pwd}/$REPO_NAME" >> $GITHUB_OUTPUT
 
     - name: Pull docker image
       shell: bash
@@ -46,7 +47,7 @@ runs:
       shell: bash
       run: |
         cd ${{ steps.repo_name.outputs.repo_name }}
-        docker run --rm --volume $(pwd):/usr/src/works:ro --volume $(pwd)/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "mkdir -p /usr/src/reports && ls -R /usr/src && codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
+        docker run --rm --volume ${{ steps.repo_name.outputs.full }}:/usr/src/works:ro --volume ${{ steps.repo_name.outputs.full }}/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "mkdir -p /usr/src/reports && ls -R /usr/src && codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
         ls -R ../${{ steps.repo_name.outputs.pwd }}
    
     - name: Save reports
