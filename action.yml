@@ -47,13 +47,13 @@ runs:
       shell: bash
       run: |
         cd ${{ steps.repo_name.outputs.repo_name }}
-        docker run --rm --volume ${{ steps.repo_name.outputs.full }}:/usr/src/works:ro --volume ${{ steps.repo_name.outputs.full }}/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "mkdir -p /usr/src/reports && ls -R /usr/src && codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
-        ls -R ../${{ steps.repo_name.outputs.pwd }}
+        docker run --rm --volume ${{ steps.repo_name.outputs.full }}:/usr/src/works:ro --volume ${{ steps.repo_name.outputs.pwd }}/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "mkdir -p /usr/src/reports && ls -R /usr/src && codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
+        ls -R ../
    
     - name: Save reports
       uses: actions/upload-artifact@v3
       with:
         name: reports
-        path: ${{ steps.repo_name.outputs.pwd }}/${{ steps.repo_name.outputs.repo_name }}/reports/
+        path: ${{ steps.repo_name.outputs.pwd }}/reports/
         retention-days: 1
         if-no-files-found: error
