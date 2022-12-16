@@ -51,6 +51,6 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: reports
-        path: check_plag/reports/
+        path: ${pwd}/${{ steps.repo_name.outputs.repo_name }}/reports/
         retention-days: 1
         if-no-files-found: error
