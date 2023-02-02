@@ -1,0 +1,16 @@
+check revert:
+  before: 10
+  after: 60
+  groups: 
+    2381: Monday 17:30
+    2382: Fri 10:30
+    2383: Sat 12:40
+    2303: "17:30"
+  command: date
+update grades:
+  after: 5
+  command: docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config <docker_image> python3.8 update_pull_requests_from_moodle.py /config
+  groups: 
+    0393: Sunday 00:30
+    9303: "17:30"
+    1111: Tue 11:40
