@@ -1,21 +1,26 @@
-name: update-grades
+# action.yml
+name: 'Update grades in repository'
+description: 'Update grades in educational repository'
+inputs:
+  github-token:  
+    description: 'Github token'
+    required: true
+    default: "${{ github.token }}"
+  repository-name:
+    description: 'Full name of repo. Format.: <owner>/<name of repo>'
+    required: true
+    default: ${{ github.event.repository.full_name }}
+  update-google-table:
+    description: 'Whether or not to update grades in google table'
+    required: true
+    default: false
 
-on:
-  workflow_dispatch:
-    inputs:
-      update_in_google_table:
-        description: "Update grades in google table which is linked with this repository"
-        required: false
-        type: boolean
+branding:
+  icon: 'book'  
+  color: 'gray-dark'
 
-jobs:
-  update-grades:
-    runs-on: self-hosted
-    steps:
-      - id: update-grades
-        name: Update grades
-        uses: <pull-request-checker-repo>@update-grades
-        with:
-          github-token: ${{ github.token }}
-          repository-name: ${{ github.event.repository.full_name }}
-          update-google-table: ${{ inputs.update_in_google_table }}
+runs:
+  using: 'composite'
+  steps:
+    - run: echo "There should be script for updating grades"
+      shell: bash
