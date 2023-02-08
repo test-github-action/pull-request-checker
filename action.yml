@@ -1,11 +1,7 @@
 # action.yml
-name: 'Pull request bot checker for educational process'
-description: 'Check view of pr, such as: name of pr, commits, structure, files and so on'
+name: 'Commits in main'
+description: 'Looking for commits in protected branches'
 inputs:
-  number-of-pr:  
-    description: 'Number of pull request'
-    required: true
-    default: '1'
   github-token:  
     description: 'Github token'
     required: true
@@ -14,10 +10,6 @@ inputs:
     description: 'Full name of repo. Format.: <owner>/<name of repo>'
     required: true
     default: ${{ github.event.repository.full_name }}
-  author:
-    description: 'login of sender'
-    required: true
-    default: ${{ github.event.sender.login }}
 
 branding:
   icon: 'book'  
@@ -26,9 +18,5 @@ branding:
 runs:
   using: 'composite'
   steps:
-    - run: |
-        REPO_NAME=${{ inputs.repository-name }}
-        REPO_NAME=${REPO_NAME##*/}
-        cp -r /_work/$REPO_NAME/$REPO_NAME/* /repository_files
-        docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${VOLUME_NAME}:/repository_files mirrin/pr-automation:graduate_machalichev python3.8 check_pull_request.py ${{ inputs.github-token }} ${{ inputs.number-of-pr }} ${{ inputs.repository-name }} ${{ inputs.author }}
+    - run: echo "There should be check for commits in protected branches"
       shell: bash
