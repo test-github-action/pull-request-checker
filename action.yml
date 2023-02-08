@@ -1,34 +1,21 @@
-# action.yml
-name: 'Pull request bot checker for educational process'
-description: 'Check view of pr, such as: name of pr, commits, structure, files and so on'
-inputs:
-  number-of-pr:  
-    description: 'Number of pull request'
-    required: true
-    default: '1'
-  github-token:  
-    description: 'Github token'
-    required: true
-    default: "${{ github.token }}"
-  repository-name:
-    description: 'Full name of repo. Format.: <owner>/<name of repo>'
-    required: true
-    default: ${{ github.event.repository.full_name }}
-  author:
-    description: 'login of sender'
-    required: true
-    default: ${{ github.event.sender.login }}
+name: update-grades
 
-branding:
-  icon: 'book'  
-  color: 'gray-dark'
+on:
+  workflow_dispatch:
+    inputs:
+      update_in_google_table:
+        description: "Update grades in google table which is linked with this repository"
+        required: false
+        type: boolean
 
-runs:
-  using: 'composite'
-  steps:
-    - run: |
-        REPO_NAME=${{ inputs.repository-name }}
-        REPO_NAME=${REPO_NAME##*/}
-        cp -r /_work/$REPO_NAME/$REPO_NAME/* /repository_files
-        docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${VOLUME_NAME}:/repository_files mirrin/pr-automation:graduate_machalichev python3.8 check_pull_request.py ${{ inputs.github-token }} ${{ inputs.number-of-pr }} ${{ inputs.repository-name }} ${{ inputs.author }}
-      shell: bash
+jobs:
+  update-grades:
+    runs-on: self-hosted
+    steps:
+      - id: update-grades
+        name: Update grades
+        uses: <pull-request-checker-repo>@update-grades
+        with:
+          github-token: ${{ github.token }}
+          repository-name: ${{ github.event.repository.full_name }}
+          update-google-table: ${{ inputs.update_in_google_table }}
