@@ -1,11 +1,15 @@
 # action.yml
-name: 'Antiplagiarism check'
-description: 'Looking for plagiarism in educational repository'
+name: 'Linter check'
+description: 'Check source code for style coding'
 inputs:
   github-token:  
     description: 'Github token'
     required: true
     default: "${{ github.token }}"
+  number-of-pr:  
+    description: 'Number of pull request'
+    required: true
+    default: '1'
   repository-name:
     description: 'Full name of repo. Format.: <owner>/<name of repo>'
     required: true
@@ -18,5 +22,5 @@ branding:
 runs:
   using: 'composite'
   steps:
-    - run: echo "There should be antiplagiarism check"
+    - run: echo "There should be linter check"
       shell: bash
