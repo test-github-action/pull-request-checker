@@ -11,4 +11,4 @@ jobs:
     steps:
       - id: update-scheduled-actions
         name: Update scheduled actions
-        run: docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config mirrin/pr-automation:graduate_machalichev python3.8 generate_scheduled_actions.py /config ${{ github.event.repository.full_name }} ${{ github.token }}
+        run: docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config mirrin/pr-automation:graduate_machalichev python3.8 generate_scheduled_actions.py ${{ github.event.repository.full_name }} /config /
