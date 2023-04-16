@@ -28,5 +28,5 @@ runs:
   steps:
     - run: |
         cp -r $GITHUB_WORKSPACE/* /repository_files
-        docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${VOLUME_NAME}:/repository_files mirrin/pr-automation:graduate_machalichev --github_token ${{ inputs.github-token }} --number_of_pr ${{ inputs.number-of-pr }} --repository_name ${{ inputs.repository-name }}
+        docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${VOLUME_NAME}:/repository_files mirrin/pr-automation:graduate_machalichev check_pr --github_token ${{ inputs.github-token }} --number_of_pr ${{ inputs.number-of-pr }} --repository_name ${{ inputs.repository-name }}
       shell: bash
