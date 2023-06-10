@@ -15,7 +15,7 @@ runs:
     - name: Find branches for pull requests
       id: branches
       run: |
-        docker run mirrin/pr-automation:plagiat -v ${PR_BOT_CONFIG_PATH}:/config get_pull_requests_branches.py /config ${{ inputs.repository-name }} ${{ inputs.github-token }} > output.txt
+        docker run -v ${PR_BOT_CONFIG_PATH}:/config mirrin/pr-automation:plagiat get_pull_requests_branches.py /config ${{ inputs.repository-name }} ${{ inputs.github-token }} > output.txt
         echo 'branches=$(cat output.txt)' >> "$GITHUB_OUTPUT"
       shell: bash
 
