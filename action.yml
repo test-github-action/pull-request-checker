@@ -16,7 +16,7 @@ runs:
       id: branches
       run: |
         docker run -v ${PR_BOT_CONFIG_PATH}:/config mirrin/pr-automation:plagiat python3.8 get_pull_requests_branches.py /config ${{ inputs.repository-name }} ${{ inputs.github-token }} > output.txt
-        echo 'branches=$(cat output.txt)' >> "$GITHUB_OUTPUT"
+        echo "branches=$(cat output.txt)" >> "$GITHUB_OUTPUT"
       shell: bash
 
     - name: Clone all branches
