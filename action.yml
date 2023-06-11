@@ -22,6 +22,7 @@ runs:
     - name: Clone all branches
       if: success() && steps.branches.outputs.branches
       run: |
+        cd /repository_files
         rm -r check_plag
         git clone https://github.com/${{ inputs.repository-name }} check_plag
         cd check_plag
@@ -32,7 +33,7 @@ runs:
 
     - name: Merge all branches
       run: |
-        cd check_plag
+        cd /repository_files/check_plag
         git config --global user.email "robot@example.com"
         git config --global user.name "robot"
         git merge $(git branch | tr -s '\r\n*' ' ' | sed -r 's/main//' | sed -r 's/master//') -m "Merge all branches."
@@ -40,8 +41,7 @@ runs:
 
     - name: Run plagiarism searching
       run: |
-        cd check_plag
-        docker run --rm --volume $(pwd):/usr/src/works:ro --volume $(pwd)/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
+        docker run --rm --volume ${VOLUME_NAME}/check_plag:/usr/src/works:ro --volume ${VOLUME_NAME}/check_plag/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
       shell: bash
 
     - name: ls dir
@@ -56,6 +56,6 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: reports
-        path: check_plag/reports/
+        path: /repository_files/check_plag/reports/
         retention-days: 3
         if-no-files-found: error
