@@ -41,7 +41,9 @@ runs:
 
     - name: Run plagiarism searching
       run: |
-        docker run --rm --volume ${VOLUME_NAME}/check_plag:/usr/src/works:ro --volume ${VOLUME_NAME}/check_plag/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
+        cd /repository_files
+        mkdir plag_reports
+        docker run --rm --volume ${VOLUME_NAME}:/usr/src/volume:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "codeplag settings modify --reports /usr/src/volume/plag_reports && codeplag check --extension cpp --directories /usr/src/volume/check_plag"
       shell: bash
 
     - name: ls dir
