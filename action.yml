@@ -44,6 +44,14 @@ runs:
         docker run --rm --volume $(pwd):/usr/src/works:ro --volume $(pwd)/reports:/usr/src/reports:rw "artanias/codeplag-ubuntu20.04:0.2.8" /bin/bash -c "codeplag settings modify --reports /usr/src/reports && codeplag check --extension cpp --directories /usr/src/works/"
       shell: bash
 
+    - name: ls dir
+      run: |
+        ls
+        echo "=========="
+        cd check_plag
+        ls
+      shell: bash
+
     - name: Save reports
       uses: actions/upload-artifact@v3
       with:
