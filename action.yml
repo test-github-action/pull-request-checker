@@ -23,7 +23,7 @@ runs:
       if: success() && steps.branches.outputs.branches
       run: |
         cd /repository_files
-        rm -r check_plag
+        rm -rf check_plag
         git clone https://github.com/${{ inputs.repository-name }} check_plag
         cd check_plag
         for branch in ${{ steps.branches.outputs.branches }}; do
