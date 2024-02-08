@@ -1,32 +1,31 @@
-# action.yml
-name: 'Pull request bot checker for educational process'
-description: 'Check view of pr, such as: name of pr, commits, structure, files and so on'
+name: 'Update one grade'
+description: 'Update grade in spreadsheet from merged pull-request'
 inputs:
-  number-of-pr:  
-    description: 'Number of pull request'
-    required: true
-    default: '1'
-  github-token:  
+  github-token:
     description: 'Github token'
     required: true
     default: "${{ github.token }}"
+  number-of-pr:
+    description: 'Number of pull request'
+    required: true
+    default: '1'
   repository-name:
     description: 'Full name of repo. Format.: <owner>/<name of repo>'
     required: true
     default: ${{ github.event.repository.full_name }}
-  author:
-    description: 'login of sender'
+  update-google-table:
+    description: 'Whether or not to update grades in google table'
     required: true
-    default: ${{ github.event.sender.login }}
+    default: false
 
 branding:
-  icon: 'book'  
+  icon: 'book'
   color: 'gray-dark'
 
 runs:
   using: 'composite'
   steps:
-    - run: |
-        cp -r $GITHUB_WORKSPACE/* /repository_files
-        docker run --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${VOLUME_NAME}:/repository_files mirrin/pr-automation:latest check_pr -github_token ${{ inputs.github-token }} -number_of_pr ${{ inputs.number-of-pr }} -repository_name ${{ inputs.repository-name }}
+    - run: echo "Update grade"
+      shell: bash
+    - run: docker run --pull=always --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${VOLUME_NAME}:/repository_files <image_name> update_grade_with_merged_pull_requests -github_token ${{ inputs.github-token }} -number_of_pr ${{ inputs.number-of-pr }} -repository_name ${{ inputs.repository-name }}
       shell: bash
