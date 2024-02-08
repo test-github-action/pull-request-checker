@@ -27,5 +27,5 @@ runs:
   steps:
     - run: echo "Update grade"
       shell: bash
-    - run: docker run --pull=always --rm --network=host -v ${PR_BOT_CONFIG_PATH}:/config -v ${VOLUME_NAME}:/repository_files mirrin/pr-automation:latest update_grade_with_merged_pull_requests -github_token ${{ inputs.github-token }} -number_of_pr ${{ inputs.number-of-pr }} -repository_name ${{ inputs.repository-name }}
+    - run: docker run --rm  -v ${PR_BOT_CONFIG_PATH}:/config -v ${VOLUME_NAME}:/repository_files mirrin/pr-automation:latest update_grade_with_merged_pull_requests -github_token ${{ inputs.github-token }} -number_of_pr ${{ inputs.number-of-pr }} -repository_name ${{ inputs.repository-name }}
       shell: bash
