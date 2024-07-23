@@ -24,14 +24,14 @@ runs:
   steps:
       - run: |
           PAYLOAD='{
-            "command": "check_pr",
+            "command": "check_pr_test",
             "arguments": {
               "repository_name": "${{ inputs.repository-name }}",
               "github_token": "${{ inputs.github-token }}",
               "number_of_pr": "${{ inputs.number-of-pr }}"
             }
           }'
-          curl -X 'POST' \
+          curl -X 'POST' --fail-with-body \
             "$SERVER_URL/run_command/" \
             -H 'accept: application/json' \
             -H 'Content-Type: application/json' \
