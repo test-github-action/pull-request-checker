@@ -23,17 +23,17 @@ runs:
   using: 'composite'
   steps:
       - run: |
-        PAYLOAD=$(jq -n --arg command check_pr \
-          --arg github_token ${{ inputs.github-token }} \
-          --arg number_of_pr ${{ inputs.number-of-pr }} \
-          --arg repository_name ${{ inputs.repository-name }} '{
-          command: $command,
-          arguments: $arguments
-        }')
-        RESPONSE=$(curl -X 'POST' \
+        PAYLOAD='{
+          "command": "check_pr",
+          "arguments": {
+            "repository_name": "${{ inputs.repository-name }}",
+            "github_token": "${{ inputs.github-token }}",
+            "number_of_pr": "${{ inputs.number-of-pr }}"
+          }
+        }'
+        curl -X 'POST' \
           "$SERVER_URL/run_command/" \
           -H 'accept: application/json' \
           -H 'Content-Type: application/json' \
-          -d "$PAYLOAD")
-        echo "$RESPONSE"
+          -d "$PAYLOAD"
       shell: bash
